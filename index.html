@@ -1,0 +1,147 @@
+<!DOCTYPE>
+<html ng-app="app" lang="zhtw">
+
+<head>
+    <title>Council Monitoring</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/c3.css">
+    <link rel="stylesheet" href="css/radar-chart.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body ng-controller="AppCtrl">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default " role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">評鑑立委</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">內政</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee1">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">外交國防</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee2">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">經濟</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee3">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">財政</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee4">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">教育文化</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee5">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">交通</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee6">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">司法法制</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee7">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">社福還衛</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="councilor in councilorsByCommittee8">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-5">
+                <img ng-src="{{individual.ProfileImage}}" class="thumbnail councilor-photo">
+                <h1 ng-bind="individual.FullName"></h1>
+                <h1 ng-bind="individual.EnglishName"></h1>
+                <h1 ng-bind="individual.Party"></h1>
+                <hr>
+                <ul class="content">
+                    <li ng-repeat="committee in individual.Committees">
+                        <a href="#" ng-click="fetchAnalysis(individual.LegislatorId, committee.MeetingSession)">第8屆第{{committee.MeetingSession}}會期: {{committee.CommitteeName}}</a>
+                        <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
+                        <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
+                    </li>
+                </ul>
+                <h2>聯絡方式</h2>
+                <hr>
+                <ul class="content">
+                    <li ng-repeat="contact in individual.Contacts" ng-show="contact.Type === '電話'">
+                        <div ng-bind="contact.Name"></div>
+                        <div ng-bind="contact.Value"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-7">
+                <h2 class="text-center analysis">整體分析</h2>
+                <div id="radar-chart" class="text-center"></div>
+                <h2 class="text-center">新聞評價</h2>
+                <div id="chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">多奇數位</p>
+      </div>
+    </footer>
+
+
+
+    <script src="js/jquery-1.11.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/d3.js" charset="utf-8"></script>
+    <script src="js/radar-chart.js"></script>
+    <script src="js/c3.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
