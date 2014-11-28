@@ -4,7 +4,7 @@ app.factory('Councilors', ['$http', '$q', function($http, $q) {
     return {
         fetch: function(committeeType) {
             var defer = $q.defer();
-            var source = "https://congressonline.azurewebsites.net/Api/Legislators/List?committee=" + committeeType;
+            var source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Legislators/List?committee=" + committeeType;
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -19,7 +19,7 @@ app.factory('Individual', ['$http', '$q', function($http, $q) {
     return {
         fetch: function(id) {
             var defer = $q.defer();
-            var source = "https://congressonline.azurewebsites.net/Api/Legislators/Communication?id=" + id;
+            var source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Legislators/Communication?id=" + id;
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -36,11 +36,10 @@ app.factory('Analysis', ['$http', '$q', function($http, $q) {
             var defer = $q.defer();
             var source;
             if (session) {
-                source = "http://opendata-online.test.demo2.miniasp.com.tw/Api/Charts/KPI?id=" + id + "&meetingSession=" + session;
+                source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Charts/KPI?id=" + id + "&meetingSession=" + session;
             } else {
                 source = "http://opendata-online.test.demo2.miniasp.com.tw/Api/Charts/KPI?id=" + id;
             }
-
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -88,13 +87,13 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.fetchAnalysis = function(id, session) {
         Analysis.fetch(id, session).then(function(data) {
-            $scope.analysis = data;
             var radarConfig = {
                 w: 450,
-                h: 450
+                h: 450,
+                maxValue: 1,
             };
             var statistic = [{
-                axes: $scope.analysis
+                axes: data
             }];
             var radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
         });

@@ -28,64 +28,64 @@
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">內政</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee1">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">外交國防</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee2">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee2" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">經濟</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee3">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee3" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">財政</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee4">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee4" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">教育文化</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee5">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee5" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">交通</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee6">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee6" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">司法法制</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee7">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee7" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">社福還衛</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee8">
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId)"></a>
+                            <li ng-repeat="councilor in councilorsByCommittee8" ng-hide="councilor.IsResignation">
+                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
@@ -128,9 +128,9 @@
     </div>
 
     <footer class="footer">
-      <div class="container">
-        <p class="text-muted">多奇數位</p>
-      </div>
+        <div class="container">
+            <p class="text-muted">多奇數位</p>
+        </div>
     </footer>
 
 
