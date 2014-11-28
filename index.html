@@ -104,7 +104,7 @@
                 <hr>
                 <ul class="content">
                     <li ng-repeat="committee in individual.Committees">
-                        <a href="#" ng-click="fetchAnalysis(individual.LegislatorId, committee.MeetingSession); updateNews(councilor.LegislatorId, committee.MeetingSession)">第8屆第{{committee.MeetingSession}}會期: {{committee.CommitteeName}}</a>
+                        <a href="#" ng-click="fetchAnalysis(individual.LegislatorId, committee.MeetingSession); updateNews(individual.LegislatorId, committee.MeetingSession)">第8屆第{{committee.MeetingSession}}會期: {{committee.CommitteeName}}</a>
                         <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
                         <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
                     </li>
