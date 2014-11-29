@@ -101,21 +101,51 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.updateNews = function(id, session) {
         News.fetch(id, session).then(function(data) {
-            $scope.news = data;
+            $scope.news = filterNews(data, "2014/1");
             var chart = c3.generate({
                 data: {
                     x: 'x',
                     xFormat: '%Y/%m/%d',
-                    columns: $scope.news
+                    columns: $scope.news,
+                    type: "area"
                 },
                 axis: {
                     x: {
                         type: 'timeseries',
+                        tick: {
+                            count: 6,
+                            format: '%m-%d'
+                        }
                     }
-                }
+                },
+                zoom: {
+                    enabled: true
+                },
+                subchart: {
+                    show: true
+                },
+                // point: {
+                //     show: false
+                // }
             });
         });
     };
+
+    var filterNews = function(arr, date) {
+        var uselessIndex = [];
+        var re = new RegExp("^" + date + "\\d+");
+        for (var i = 1; i < arr[1].length; i++) {          
+            if (!re.test(arr[0][i]) || arr[1][i] === "0" && arr[2][i] === "0" && arr[3][i] === "0") {
+                uselessIndex.push(i);
+            }
+        }
+        for (var i = uselessIndex.length - 1; i >= 0; i--) {
+            for (var j = 0; j < arr.length; j++) {
+                arr[j].splice(uselessIndex[i], 1);
+            }
+        }
+        return arr;
+    }
 
 
 
