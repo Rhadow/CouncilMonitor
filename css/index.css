@@ -1,3 +1,6 @@
+body {
+    padding-bottom: 30px;
+}
 .councilor-photo {
     width: 55%;
 }
@@ -14,14 +17,57 @@ ul.content li {
 .analysis {
     margin-top: 0;
 }
-footer {
-    height: 60px;
-    background-color: #f5f5f5;
+.header-searchbar {
+    margin-top: 4px;
 }
-.container .text-muted {
-    margin: 20px 0;
+.header-searchbar input {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 28px;
 }
-.footer > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+ul.content li a {
+    text-decoration: none;
+    color: #428bca;
+}
+ul.content li a:hover {
+    color: #00a5e2;
+}
+.nav-style {
+    background-color: #444444;
+    border-radius: 0;
+    border: 0;
+}
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+.navbar-default .navbar-nav > li > a:hover {
+    color: #444444;
+    background-color: #ffcc00;
+    font-weight: bold;
+    cursor: default;
+}
+ul.dropdown-menu {
+    padding: 0;
+    border: 0;
+}
+.dropdown-menu > li {
+    background-color: #444444;
+}
+.dropdown-menu > li > a {
+    color: white;
+}
+.dropdown-menu > li > a:hover {
+    color: #444444;
+    background-color: #ffcc00;
+    font-weight: bold;
+}
+.navbar-default .navbar-brand{
+    color: white;
+}
+.navbar-default .navbar-brand:hover{
+    cursor: default;
+    color: white;
 }

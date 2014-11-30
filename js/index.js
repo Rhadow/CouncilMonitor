@@ -60,6 +60,7 @@ app.factory('News', ['$http', '$q', function($http, $q) {
             } else {
                 source = "jsondata/newscount/" + id + "_8-0.json";
             }
+            console.log(source);
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -101,7 +102,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.updateNews = function(id, session) {
         News.fetch(id, session).then(function(data) {
-            $scope.news = filterNews(data, "2014/1");
+            $scope.news = filterNews(data, "2014");
             var chart = c3.generate({
                 data: {
                     x: 'x',
@@ -113,28 +114,48 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                     x: {
                         type: 'timeseries',
                         tick: {
-                            count: 6,
-                            format: '%m-%d'
+                            count: 10,
+                            format: '%Y/%m/%d'
+                        },
+                        label: {
+                            text: '日期(年/月/日)',
+                            position: 'outer-center'
                         }
-                    }
+                    },
+                    y: {
+                        label: {
+                            text: '新聞數量(則)',
+                            position: 'outer-middle'
+                        }
+                    },
                 },
                 zoom: {
                     enabled: true
                 },
                 subchart: {
                     show: true
-                },
-                // point: {
-                //     show: false
-                // }
+                }
             });
         });
     };
 
+    $scope.search = function(target) {
+        var targetNotFound = true;
+        for (var i = 0; i < $scope.AllCouncilors.length; i++) {
+            if ($scope.AllCouncilors[i].FullName === target) {
+                $scope.fetchIndividual($scope.AllCouncilors[i].LegislatorId);
+                targetNotFound = false;
+            }
+        }
+        if (targetNotFound) {
+            alert("找不到 '" + target + "'");
+        }
+    };
+
     var filterNews = function(arr, date) {
         var uselessIndex = [];
-        var re = new RegExp("^" + date + "\\d+");
-        for (var i = 1; i < arr[1].length; i++) {          
+        var re = new RegExp("^" + date + "/1\\d+");
+        for (var i = 1; i < arr[1].length; i++) {
             if (!re.test(arr[0][i]) || arr[1][i] === "0" && arr[2][i] === "0" && arr[3][i] === "0") {
                 uselessIndex.push(i);
             }
@@ -149,25 +170,17 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
 
 
+    for (var i = 0; i < 10; i++) {
+        $scope.updateCommittee(i);
+    }
 
-
-
-
-
-
-    $scope.updateCommittee(1);
-    $scope.updateCommittee(2);
-    $scope.updateCommittee(3);
-    $scope.updateCommittee(4);
-    $scope.updateCommittee(5);
-    $scope.updateCommittee(6);
-    $scope.updateCommittee(7);
-    $scope.updateCommittee(8);
-    $scope.updateCommittee(9);
+    Councilors.fetch(0).then(function(data) {
+        $scope.AllCouncilors = data;
+    });
 
     $scope.fetchIndividual(1);
     $scope.fetchAnalysis(1);
-    $scope.updateNews(1);
+    $scope.updateNews(91, 0);
 
 
 
