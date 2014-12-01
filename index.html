@@ -90,7 +90,7 @@
                     </li>
                 </ul>
 
-                <div class="pull-right col-xs-3  header-searchbar">
+                <div class="pull-right col-lg-3 header-searchbar">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="searchTarget" placeholder="請輸入議員名字">
@@ -106,7 +106,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-lg-5">
                 <img ng-src="{{individual.ProfileImage}}" class="thumbnail councilor-photo">
                 <h1 ng-bind="individual.FullName"></h1>
                 <h1 ng-bind="individual.EnglishName"></h1>
@@ -114,7 +114,7 @@
                 <hr>
                 <ul class="content">
                     <li ng-repeat="committee in individual.Committees">
-                        <a href="#" ng-click="fetchAnalysis(individual.LegislatorId, committee.MeetingSession);">第8屆第{{committee.MeetingSession}}會期: {{committee.CommitteeName}}</a>
+                        <a href="#" ng-click="$event.preventDefault(); fetchAnalysis(individual.LegislatorId, committee.MeetingSession);">第8屆第<span ng-bind="committee.MeetingSession"></span>會期: <span ng-bind="committee.CommitteeName"></span></a>
                         <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
                         <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
                     </li>
@@ -128,11 +128,17 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-xs-7">
+            <div class="col-lg-7">
                 <h2 class="text-center analysis">整體分析</h2>
-                <div id="radar-chart" class="text-center"></div>
+                <div class="chart-wrapper">
+                    <div id="radar-chart" class="text-center"></div>
+                </div>
+
                 <h2 class="text-center">新聞評價</h2>
-                <div id="chart"></div>
+                <div class="chart-wrapper">
+                    <div id="chart"></div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -146,6 +152,8 @@
     <script src="js/c3.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/index.js"></script>
+
+
 </body>
 
 </html>

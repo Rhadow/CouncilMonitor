@@ -52,16 +52,16 @@ app.factory('Analysis', ['$http', '$q', function($http, $q) {
 
 app.factory('News', ['$http', '$q', function($http, $q) {
     return {
-        fetch: function(id, session) {
+        fetch: function(id) {
             var defer = $q.defer();
             var source;
-            if (session) {
-                source = "jsondata/newscount/" + id + "_8-" + session + ".json";
-            } else {
-                source = "jsondata/newscount/" + id + "_8-0.json";
-            }
-            console.log(source);
-            $http.get(source).success(function(data) {
+            var config = {
+                headers: {
+                    'Accept': 'application/json;'
+                }
+            };
+            source = "http://opendata-online.test.demo2.miniasp.com.tw/Api/Charts/GetNewsCountJsonFile?id=" + id;
+            $http.get(source, config).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
                 alert("Fetch work FAILED!!")
@@ -72,6 +72,8 @@ app.factory('News', ['$http', '$q', function($http, $q) {
 }]);
 
 app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'News', function($scope, Councilors, Individual, Analysis, News) {
+
+    var analysisCache = [];
 
     $scope.updateCommittee = function(committeeType) {
         Councilors.fetch(committeeType).then(function(data) {
@@ -87,23 +89,56 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     }
 
     $scope.fetchAnalysis = function(id, session) {
-        Analysis.fetch(id, session).then(function(data) {
-            var radarConfig = {
-                w: 450,
-                h: 450,
-                maxValue: 1,
-            };
-            var statistic = [{
-                axes: data
-            }];
-            var radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
-        });
+        var radar;
+        var statistic;
+        var radarConfig = {
+            w: 450,
+            h: 450,
+            maxValue: 1,
+            transitionDuration: 400,
+            color: function() {}
+        };
+        if (analysisCache[id]) {
+            if (analysisCache[id][session]) {
+                statistic = [{
+                    axes: analysisCache[id][session]
+                }];
+                radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+            } else {
+                Analysis.fetch(id, session).then(function(data) {
+                    if (analysisCache[id]) {
+                        analysisCache[id][session] = data;
+                    } else {
+                        analysisCache[id] = [];
+                        analysisCache[id][session] = data;
+                    }
+                    statistic = [{
+                        axes: data
+                    }];
+                    radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                });
+            }
+        } else {
+            Analysis.fetch(id, session).then(function(data) {
+                if (analysisCache[id]) {
+                    analysisCache[id][session] = data;
+                } else {
+                    analysisCache[id] = [];
+                    analysisCache[id][session] = data;
+                }
+                statistic = [{
+                    axes: data
+                }];
+                radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
+            });
+        }
     }
 
-    $scope.updateNews = function(id, session) {
-        News.fetch(id, session).then(function(data) {
-            $scope.news = filterNews(data, "2014");
-            var chart = c3.generate({
+    $scope.updateNews = function(id) {
+        News.fetch(id).then(function(data) {
+            $scope.news = $scope.filterNews(data, "2014");
+            //$scope.news = data;
+            var C3Chart = c3.generate({
                 data: {
                     x: 'x',
                     xFormat: '%Y/%m/%d',
@@ -152,7 +187,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         }
     };
 
-    var filterNews = function(arr, date) {
+    $scope.filterNews = function(arr, date) {
         var uselessIndex = [];
         var re = new RegExp("^" + date + "/1\\d+");
         for (var i = 1; i < arr[1].length; i++) {
@@ -166,7 +201,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             }
         }
         return arr;
-    }
+    };
 
 
 
@@ -179,7 +214,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     });
 
     $scope.fetchIndividual(1);
-    $scope.fetchAnalysis(1);
+    $scope.fetchAnalysis(1, 0);
     $scope.updateNews(1);
 
 
