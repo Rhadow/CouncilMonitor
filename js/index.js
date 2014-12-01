@@ -4,7 +4,7 @@ app.factory('Councilors', ['$http', '$q', function($http, $q) {
     return {
         fetch: function(committeeType) {
             var defer = $q.defer();
-            var source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Legislators/List?committee=" + committeeType;
+            var source = "https://congressonline.azurewebsites.net/Api/Legislators/List?committee=" + committeeType;
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -19,7 +19,7 @@ app.factory('Individual', ['$http', '$q', function($http, $q) {
     return {
         fetch: function(id) {
             var defer = $q.defer();
-            var source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Legislators/Communication?id=" + id;
+            var source = "https://congressonline.azurewebsites.net/Api/Legislators/Communication?id=" + id;
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -36,9 +36,9 @@ app.factory('Analysis', ['$http', '$q', function($http, $q) {
             var defer = $q.defer();
             var source;
             if (session) {
-                source = "http://opendata-online.test.demo2.miniasp.com.tw//Api/Charts/KPI?id=" + id + "&meetingSession=" + session;
+                source = "https://congressonline.azurewebsites.net/Api/Charts/KPI?id=" + id + "&meetingSession=" + session;
             } else {
-                source = "http://opendata-online.test.demo2.miniasp.com.tw/Api/Charts/KPI?id=" + id;
+                source = "https://congressonline.azurewebsites.net/Api/Charts/KPI?id=" + id;
             }
             $http.get(source).success(function(data) {
                 defer.resolve(data);
@@ -60,7 +60,7 @@ app.factory('News', ['$http', '$q', function($http, $q) {
                     'Accept': 'application/json;'
                 }
             };
-            source = "http://opendata-online.test.demo2.miniasp.com.tw/Api/Charts/GetNewsCountJsonFile?id=" + id;
+            source = "https://congressonline.azurewebsites.net/Api/Charts/GetNewsCountJsonFile?id=" + id;
             $http.get(source, config).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
@@ -202,8 +202,6 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         }
         return arr;
     };
-
-
 
     for (var i = 0; i < 10; i++) {
         $scope.updateCommittee(i);

@@ -68,17 +68,38 @@ ul.dropdown-menu {
 }
 .dropdown-menu > li {
     background-color: #444444;
+    padding-bottom: 2px;
 }
+
+
+.dropdown-menu > li:hover {
+    background-color: #ffcc00;
+}
+
+.dropdown-menu > li:hover a{
+    background-color: #ffcc00;
+    color: #444444;
+}
+
+.dropdown-menu > li:hover a:focus{
+    background-color: #ffcc00;
+    color: #444444;
+}
+
+
+
 .dropdown-menu > li:last-child {
     border-radius: 0 0 5px 5px;
 }
 .dropdown-menu > li > a {
+    display: inline-block;
+    vertical-align: middle;
     color: white;
+    padding-left: 10px;
 }
 .dropdown-menu > li > a:hover {
     color: #444444;
     background-color: #ffcc00;
-    font-weight: bold;
 }
 .dropdown-menu > li > a:focus {
     color: white;
@@ -87,7 +108,6 @@ ul.dropdown-menu {
 .dropdown-menu > li > a:hover:focus {
     color: #444444;
     background-color: #ffcc00;
-    font-weight: bold;
 }
 .navbar-default .navbar-brand {
     color: white;
@@ -132,4 +152,41 @@ ul.content li div{
 }
 .radar-chart.focus .area.focused {
   fill-opacity: 0.9;
+}
+
+div.party-pic{
+    margin-left: 5px;
+    display: inline-block;
+    background-image: url(../img/parties.png);
+    vertical-align: middle;
+}
+.party-pic.blue{
+    background-position:0px 80px;
+    width: 20px;
+    height: 20px;
+}
+.party-pic.green{
+    background-position:0px 120px;
+    width: 20px;
+    height: 20px;
+}
+.party-pic.orange{
+    background-position:0px 20px;
+    width: 20px;
+    height: 20px;
+}
+.party-pic.none{
+    background-position:0px 100px;
+    width: 20px;
+    height: 20px;
+}
+.party-pic.black{
+    background-position:0px 40px;
+    width: 20px;
+    height: 20px;
+}
+.party-pic.red{
+    background-position:0px 60px;
+    width: 20px;
+    height: 20px;
 }

@@ -28,6 +28,7 @@
                         <a href="#">內政</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -36,6 +37,7 @@
                         <a href="#">外交國防</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee2" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -44,6 +46,7 @@
                         <a href="#">經濟</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee3" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -52,6 +55,7 @@
                         <a href="#">財政</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee4" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -60,6 +64,7 @@
                         <a href="#">教育文化</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee5" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -68,6 +73,7 @@
                         <a href="#">交通</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee6" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -76,6 +82,7 @@
                         <a href="#">司法法制</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee7" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
@@ -84,13 +91,14 @@
                         <a href="#">社福還衛</a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="councilor in councilorsByCommittee8" ng-hide="councilor.IsResignation">
+                                <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
                             </li>
                         </ul>
                     </li>
                 </ul>
 
-                <div class="pull-right col-lg-3 header-searchbar">
+                <div class="pull-right col-md-3 header-searchbar">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="searchTarget" placeholder="請輸入議員名字">
@@ -106,7 +114,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-md-5">
                 <img ng-src="{{individual.ProfileImage}}" class="thumbnail councilor-photo">
                 <h1 ng-bind="individual.FullName"></h1>
                 <h1 ng-bind="individual.EnglishName"></h1>
@@ -128,7 +136,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-lg-7">
+            <div class="col-md-7">
                 <h2 class="text-center analysis">整體分析</h2>
                 <div class="chart-wrapper">
                     <div id="radar-chart" class="text-center"></div>
