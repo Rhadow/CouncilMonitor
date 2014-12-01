@@ -220,3 +220,6 @@ div.header-searchbar{
 ul.content li div{
     display: inline-block;
 }
+ul.content li div.contact{
+    display: block;
+}

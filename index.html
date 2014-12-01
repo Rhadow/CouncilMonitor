@@ -27,7 +27,7 @@
                     <li class="dropdown">
                         <a href="#">內政</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
+                            <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation || councilor.LegislatorId == 29" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
                                 <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
@@ -129,7 +129,8 @@
                 <hr>
                 <ul class="content">
                     <li ng-repeat="committee in individual.Committees">
-                        <div href="#" ng-click="meetingSessionClick($event, committee)" ng-class="{clickable: !checkAnalysis(individual.LegislatorId, committee.MeetingSession)}">第8屆第<span ng-bind="committee.MeetingSession"></span>會期: <span ng-bind="committee.CommitteeName"></span>
+                        <div href="#" ng-click="meetingSessionClick($event, committee)" 
+                        ng-class="{clickable: !checkAnalysis(individual.LegislatorId, committee.MeetingSession)}">第8屆第<span ng-bind="committee.MeetingSession"></span>會期: <span ng-bind="committee.CommitteeName"></span>
                         </div>
                         <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
                         <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
@@ -140,8 +141,8 @@
                 <hr>
                 <ul class="content">
                     <li ng-repeat="contact in individual.Contacts" ng-show="contact.Type === '電話'">
-                        <div ng-bind="contact.Name"></div>
-                        <div ng-bind="contact.Value"></div>
+                        <div ng-bind="contact.Name" class="contact"></div>
+                        <div ng-bind="contact.Value" class="contact"></div>
                     </li>
                 </ul>
             </div>

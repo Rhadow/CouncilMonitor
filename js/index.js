@@ -87,7 +87,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.fetchIndividual = function(id) {
         $scope.dataReady = false;
-        d3.select("#radar-chart").select('svg').remove();
+        $scope.current.target = 6;
         Individual.fetch(id).then(function(data) {
             for (var i = 5; i > 0; i--) {
                 $scope.fetchAnalysis(id, i);
@@ -106,7 +106,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             transitionDuration: 400,
             color: function() {}
         };
-        $scope.current.target = 5;
+
         if (analysisCache[id]) {
             if (analysisCache[id][session]) {
                 statistic = [{
@@ -158,6 +158,22 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             });
         }
     };
+
+    $scope.drawAnalysis = function(id, session) {
+        var radar;
+        var statistic;
+        var radarConfig = {
+            w: 450,
+            h: 450,
+            maxValue: 1,
+            transitionDuration: 400,
+            color: function() {}
+        };
+        statistic = [{
+            axes: analysisCache[id][session]
+        }];
+        radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+    }
 
     $scope.updateNews = function(id) {
         News.fetch(id).then(function(data) {
@@ -236,24 +252,18 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     };
 
 
-    $scope.random = function(min, max) {
-        return Math.floor(Math.random() * 116);
+    $scope.random = function() {
+        return Math.floor(Math.random() * 116) + 1;
     }
 
-    $scope.meetingSessionClick = function($event, committee){
-
-        if($scope.checkAnalysis($scope.individual.LegislatorId, committee.MeetingSession)){
+    $scope.meetingSessionClick = function($event, committee) {
+        if ($scope.checkAnalysis($scope.individual.LegislatorId, committee.MeetingSession)) {
             return;
         }
-
-        $event.preventDefault(); 
-        $scope.fetchAnalysis($scope.individual.LegislatorId, committee.MeetingSession); 
+        $event.preventDefault();
+        $scope.drawAnalysis($scope.individual.LegislatorId, committee.MeetingSession);
         $scope.current.target = committee.MeetingSession;
     }
-
-
-
-
 
     $scope.checkAnalysis = function(id, session) {
         var hasNoValue = true;
@@ -268,10 +278,6 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         return hasNoValue;
     }
 
-
-
-
-
     $scope.suggest = function() {
         var result = [];
         for (var i = 0; i < $scope.AllCouncilors.length; i++) {
@@ -284,23 +290,20 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         $scope.suggestions = result;
     }
 
-
-
-
     for (var i = 0; i < 10; i++) {
         $scope.updateCommittee(i);
     }
 
     Councilors.fetch(0).then(function(data) {
         $scope.AllCouncilors = data;
+        console.log(data);
+        var x = $scope.random();
+        while (x === 29 || $scope.AllCouncilors[i - 1].IsResignation) {
+            x = $scope.random();
+        }
+        $scope.fetchIndividual(x);
+        $scope.updateNews(x);
     });
-
-
-    var x = $scope.random();
-    $scope.fetchIndividual(x);
-    $scope.updateNews(x);
-
-
 
 
 }]);
