@@ -8,7 +8,7 @@ app.factory('Councilors', ['$http', '$q', function($http, $q) {
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
-                alert("Fetch work FAILED!!")
+                console.log("Fetch work FAILED!!")
             });
             return defer.promise;
         }
@@ -23,7 +23,7 @@ app.factory('Individual', ['$http', '$q', function($http, $q) {
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
-                alert("Fetch work FAILED!!")
+                console.log("Fetch work FAILED!!")
             });
             return defer.promise;
         }
@@ -43,7 +43,7 @@ app.factory('Analysis', ['$http', '$q', function($http, $q) {
             $http.get(source).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
-                alert("Fetch work FAILED!!")
+                console.log("Fetch work FAILED!!")
             });
             return defer.promise;
         }
@@ -64,7 +64,7 @@ app.factory('News', ['$http', '$q', function($http, $q) {
             $http.get(source, config).success(function(data) {
                 defer.resolve(data);
             }).error(function() {
-                alert("Fetch work FAILED!!")
+                console.log("Fetch work FAILED!!")
             });
             return defer.promise;
         }
@@ -75,6 +75,10 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     var analysisCache = [];
 
+    $scope.current = {
+        target: 5
+    };
+
     $scope.updateCommittee = function(committeeType) {
         Councilors.fetch(committeeType).then(function(data) {
             $scope["councilorsByCommittee" + committeeType] = data;
@@ -82,8 +86,11 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     };
 
     $scope.fetchIndividual = function(id) {
+        $scope.dataReady = false;
         Individual.fetch(id).then(function(data) {
-            $scope.fetchAnalysis(id);
+            for (var i = 5; i > 0; i--) {
+                $scope.fetchAnalysis(id, i);
+            }
             $scope.individual = data;
         });
     }
@@ -98,12 +105,19 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             transitionDuration: 400,
             color: function() {}
         };
+        $scope.current.target = 5;
         if (analysisCache[id]) {
             if (analysisCache[id][session]) {
                 statistic = [{
                     axes: analysisCache[id][session]
                 }];
-                radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                if (!$scope.checkAnalysis(id, session)) {
+                    if (session < $scope.current.target) {
+                        $scope.current.target = session;
+                        radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                    }
+                }
+
             } else {
                 Analysis.fetch(id, session).then(function(data) {
                     if (analysisCache[id]) {
@@ -115,7 +129,12 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                     statistic = [{
                         axes: data
                     }];
-                    radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                    if (!$scope.checkAnalysis(id, session)) {
+                        if (session < $scope.current.target) {
+                            $scope.current.target = session;
+                            radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                        }
+                    }
                 });
             }
         } else {
@@ -129,10 +148,15 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 statistic = [{
                     axes: data
                 }];
-                radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
+                if (!$scope.checkAnalysis(id, session)) {
+                    if (session < $scope.current.target) {
+                        $scope.current.target = session;
+                        radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
+                    }
+                }
             });
         }
-    }
+    };
 
     $scope.updateNews = function(id) {
         News.fetch(id).then(function(data) {
@@ -176,6 +200,8 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.search = function(target) {
         var targetNotFound = true;
+        $scope.searchTarget = "";
+        $scope.suggestions = "";
         for (var i = 0; i < $scope.AllCouncilors.length; i++) {
             if ($scope.AllCouncilors[i].FullName === target) {
                 $scope.fetchIndividual($scope.AllCouncilors[i].LegislatorId);
@@ -186,6 +212,11 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             alert("找不到 '" + target + "'");
         }
     };
+
+    $scope.setTarget = function(name) {
+        $scope.searchTarget = name;
+        $scope.suggestions = "";
+    }
 
     $scope.filterNews = function(arr, date) {
         var uselessIndex = [];
@@ -203,6 +234,58 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         return arr;
     };
 
+
+    $scope.random = function(min, max) {
+        return Math.floor(Math.random() * 116);
+    }
+
+    $scope.meetingSessionClick = function($event, committee){
+
+        if($scope.checkAnalysis($scope.individual.LegislatorId, committee.MeetingSession)){
+            return;
+        }
+
+        $event.preventDefault(); 
+        $scope.fetchAnalysis($scope.individual.LegislatorId, committee.MeetingSession); 
+        $scope.current.target = committee.MeetingSession;
+    }
+
+
+
+
+
+    $scope.checkAnalysis = function(id, session) {
+        var hasNoValue = true;
+        if (typeof(analysisCache[id]) != 'undefined' &&
+            typeof(analysisCache[id][session]) != 'undefined') {
+            for (var i = 0; i < analysisCache[id][session].length; i++) {
+                if (analysisCache[id][session][i].value) {
+                    hasNoValue = false;
+                }
+            }
+        }
+        return hasNoValue;
+    }
+
+
+
+
+
+    $scope.suggest = function() {
+        var result = [];
+        for (var i = 0; i < $scope.AllCouncilors.length; i++) {
+            if ($scope.AllCouncilors[i].FullName.indexOf($scope.searchTarget) >= 0) {
+                if ($scope.searchTarget != "") {
+                    result.push($scope.AllCouncilors[i].FullName);
+                }
+            }
+        }
+        $scope.suggestions = result;
+    }
+
+
+
+
     for (var i = 0; i < 10; i++) {
         $scope.updateCommittee(i);
     }
@@ -211,12 +294,10 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         $scope.AllCouncilors = data;
     });
 
-    $scope.fetchIndividual(1);
-    $scope.fetchAnalysis(1, 0);
-    $scope.updateNews(1);
 
-
-
+    var x = $scope.random();
+    $scope.fetchIndividual(x);
+    $scope.updateNews(x);
 
 
 

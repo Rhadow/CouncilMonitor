@@ -69,25 +69,19 @@ ul.dropdown-menu {
 .dropdown-menu > li {
     background-color: #444444;
     padding-bottom: 2px;
+    cursor: pointer;
 }
-
-
 .dropdown-menu > li:hover {
     background-color: #ffcc00;
 }
-
-.dropdown-menu > li:hover a{
+.dropdown-menu > li:hover a {
     background-color: #ffcc00;
     color: #444444;
 }
-
-.dropdown-menu > li:hover a:focus{
+.dropdown-menu > li:hover a:focus {
     background-color: #ffcc00;
     color: #444444;
 }
-
-
-
 .dropdown-menu > li:last-child {
     border-radius: 0 0 5px 5px;
 }
@@ -136,57 +130,91 @@ h1, h2, h3, h4, h5, h6 {
 .thumbnail {
     box-shadow: 1px 1px 5px #999999;
 }
-
-ul.content li div{
+ul.content li div {
     font-weight: bold;
 }
-
-
-.radar-chart .area, .circle{
-  fill-opacity: 0.7;
-  fill: #4fbbba;
-  stroke: #444444;
+.radar-chart .area, .circle {
+    fill-opacity: 0.7;
+    fill: #4fbbba;
+    stroke: #444444;
 }
 .radar-chart.focus .area {
-  fill-opacity: 0.3;
+    fill-opacity: 0.3;
 }
 .radar-chart.focus .area.focused {
-  fill-opacity: 0.9;
+    fill-opacity: 0.9;
 }
-
-div.party-pic{
+div.party-pic {
     margin-left: 5px;
     display: inline-block;
     background-image: url(../img/parties.png);
     vertical-align: middle;
 }
-.party-pic.blue{
-    background-position:0px 80px;
+.party-pic.blue {
+    background-position: 0px 80px;
     width: 20px;
     height: 20px;
 }
-.party-pic.green{
-    background-position:0px 120px;
+.party-pic.green {
+    background-position: 0px 120px;
     width: 20px;
     height: 20px;
 }
-.party-pic.orange{
-    background-position:0px 20px;
+.party-pic.orange {
+    background-position: 0px 20px;
     width: 20px;
     height: 20px;
 }
-.party-pic.none{
-    background-position:0px 100px;
+.party-pic.none {
+    background-position: 0px 100px;
     width: 20px;
     height: 20px;
 }
-.party-pic.black{
-    background-position:0px 40px;
+.party-pic.black {
+    background-position: 0px 40px;
     width: 20px;
     height: 20px;
 }
-.party-pic.red{
-    background-position:0px 60px;
+.party-pic.red {
+    background-position: 0px 60px;
     width: 20px;
     height: 20px;
+}
+.disabled {
+    color: black;
+    display: inline-block;
+}
+.suggestions {
+    z-index: 999;
+    background-color: white;
+    padding-left: 0;
+    border: 1px solid #444444;    
+    position: absolute;
+    top: 36px;
+    left: 30px;
+    width: 129px;
+    padding-left: 10px;
+}
+.suggestions li {
+    list-style: none;
+    cursor: pointer;
+}
+.suggestions li:hover {
+    background-color: #FFCC00;
+}
+
+div.header-searchbar{
+    position: relative;
+}
+.clickable {
+    text-decoration: none;
+    color: #348b8a;
+    font-weight: bold;
+    cursor: pointer;
+}
+.clickable:hover {
+    color: #3da3a2;
+}
+ul.content li div{
+    display: inline-block;
 }

@@ -27,72 +27,72 @@
                     <li class="dropdown">
                         <a href="#">內政</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee1" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">外交國防</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee2" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee2" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">經濟</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee3" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee3" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">財政</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee4" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee4" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">教育文化</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee5" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee5" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">交通</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee6" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee6" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">司法法制</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee7" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee7" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#">社福還衛</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="councilor in councilorsByCommittee8" ng-hide="councilor.IsResignation">
+                            <li ng-repeat="councilor in councilorsByCommittee8" ng-hide="councilor.IsResignation" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)">
                                 <div class="party-pic" ng-class="{blue: councilor.Party === '中國國民黨', green: councilor.Party === '民主進步黨', orange: councilor.Party === '親民黨', black: councilor.Party === '無黨籍', red: councilor.Party === '無黨團結聯盟', none: councilor.Party === '台灣團結聯盟',}"></div>
-                                <a href="#" ng-bind="councilor.FullName" ng-click="fetchIndividual(councilor.LegislatorId); updateNews(councilor.LegislatorId)"></a>
+                                <a href="#" ng-bind="councilor.FullName"></a>
                             </li>
                         </ul>
                     </li>
@@ -101,17 +101,24 @@
                 <div class="pull-right col-md-3 header-searchbar">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="searchTarget" placeholder="請輸入議員名字">
+                            <input type="text" class="form-control" ng-model="searchTarget" placeholder="請輸入委員姓名" ng-change="suggest()">
                             <div class="input-group-btn">
-                                <button class="btn btn-success" ng-click="search(searchTarget); searchTarget=''"><i class="glyphicon glyphicon-search"></i>
+                                <button class="btn btn-success" ng-click="search(searchTarget);"><i class="glyphicon glyphicon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
+
+                    <ul class="pull-right col-md-3 suggestions" ng-show="suggestions">
+                        <li ng-repeat="suggestion in suggestions" ng-click="setTarget(suggestion);" ng-bind="suggestion"></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </nav>
+
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-5">
@@ -122,9 +129,11 @@
                 <hr>
                 <ul class="content">
                     <li ng-repeat="committee in individual.Committees">
-                        <a href="#" ng-click="$event.preventDefault(); fetchAnalysis(individual.LegislatorId, committee.MeetingSession);">第8屆第<span ng-bind="committee.MeetingSession"></span>會期: <span ng-bind="committee.CommitteeName"></span></a>
+                        <div href="#" ng-click="meetingSessionClick($event, committee)" ng-class="{clickable: !checkAnalysis(individual.LegislatorId, committee.MeetingSession)}">第8屆第<span ng-bind="committee.MeetingSession"></span>會期: <span ng-bind="committee.CommitteeName"></span>
+                        </div>
                         <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
                         <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
+                        <span class="label label-info" ng-hide="committee.MeetingSession !== current.target">目前</span>
                     </li>
                 </ul>
                 <h2>聯絡方式</h2>
@@ -150,8 +159,6 @@
             </div>
         </div>
     </div>
-
-
 
     <script src="js/jquery-1.11.1.js"></script>
     <script src="js/bootstrap.js"></script>
