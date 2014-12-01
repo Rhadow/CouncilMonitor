@@ -186,21 +186,23 @@ div.party-pic {
 }
 .suggestions {
     z-index: 999;
-    background-color: white;
+    background-color: #444444;
     padding-left: 0;
     border: 1px solid #444444;    
     position: absolute;
     top: 36px;
     left: 30px;
-    width: 129px;
-    padding-left: 10px;
+    width: 64%;
+    padding-left: 12px;
+    color: white;
 }
 .suggestions li {
     list-style: none;
     cursor: pointer;
 }
 .suggestions li:hover {
-    background-color: #FFCC00;
+    background-color: #ffcc00;
+    color: black;
 }
 
 div.header-searchbar{

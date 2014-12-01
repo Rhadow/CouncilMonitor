@@ -87,6 +87,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.fetchIndividual = function(id) {
         $scope.dataReady = false;
+        d3.select("#radar-chart").select('svg').remove();
         Individual.fetch(id).then(function(data) {
             for (var i = 5; i > 0; i--) {
                 $scope.fetchAnalysis(id, i);
