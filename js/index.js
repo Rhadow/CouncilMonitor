@@ -180,7 +180,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     $scope.fetchIndividual(1);
     $scope.fetchAnalysis(1);
-    $scope.updateNews(91, 0);
+    $scope.updateNews(1);
 
 
 

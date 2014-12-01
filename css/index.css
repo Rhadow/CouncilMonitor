@@ -43,7 +43,18 @@ ul.content li a:hover {
 .navbar-default .navbar-nav > li > a {
     color: white;
 }
-.navbar-default .navbar-nav > li > a:hover {
+.navbar-default .navbar-nav > li > a:hover{
+    color: #444444;
+    background-color: #ffcc00;
+    font-weight: bold;
+    cursor: default;
+}
+.navbar-default .navbar-nav > li > a:focus{
+    color: white;
+    background-color: #444444;
+    cursor: default;
+}
+.navbar-default .navbar-nav > li > a:hover:focus{
     color: #444444;
     background-color: #ffcc00;
     font-weight: bold;
@@ -64,10 +75,27 @@ ul.dropdown-menu {
     background-color: #ffcc00;
     font-weight: bold;
 }
+.dropdown-menu > li > a:focus {
+    color: white;
+    background-color: #444444;
+}
+.dropdown-menu > li > a:hover:focus {
+    color: #444444;
+    background-color: #ffcc00;
+    font-weight: bold;
+}
 .navbar-default .navbar-brand{
     color: white;
 }
 .navbar-default .navbar-brand:hover{
+    cursor: default;
+    color: white;
+}
+.navbar-default .navbar-brand:focus{
+    cursor: default;
+    color: white;
+}
+.navbar-default .navbar-brand:hover:focus{
     cursor: default;
     color: white;
 }
