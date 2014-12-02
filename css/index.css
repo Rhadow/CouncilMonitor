@@ -223,3 +223,8 @@ ul.content li div{
 ul.content li div.contact{
     display: block;
 }
+
+.suggestions li.picked {
+    background-color: #ffcc00;
+    color: black;
+}

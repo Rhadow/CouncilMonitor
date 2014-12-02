@@ -112,7 +112,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 statistic = [{
                     axes: analysisCache[id][session]
                 }];
-                if (!$scope.checkAnalysis(id, session)) {
+                if ($scope.hasData(id, session)) {
                     if (session < $scope.current.target) {
                         $scope.current.target = session;
                         radar = RadarChart.update("#radar-chart", statistic, radarConfig);
@@ -130,7 +130,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                     statistic = [{
                         axes: data
                     }];
-                    if (!$scope.checkAnalysis(id, session)) {
+                    if ($scope.hasData(id, session)) {
                         if (session < $scope.current.target) {
                             $scope.current.target = session;
                             radar = RadarChart.update("#radar-chart", statistic, radarConfig);
@@ -149,7 +149,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 statistic = [{
                     axes: data
                 }];
-                if (!$scope.checkAnalysis(id, session)) {
+                if ($scope.hasData(id, session)) {
                     if (session < $scope.current.target) {
                         $scope.current.target = session;
                         radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
@@ -238,8 +238,13 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     $scope.filterNews = function(arr, date) {
         var uselessIndex = [];
         var re = new RegExp("^" + date + "/1\\d+");
+        // for (var i = 1; i < arr[1].length; i++) {
+        //     if (!re.test(arr[0][i]) || arr[1][i] === "0" && arr[2][i] === "0" && arr[3][i] === "0") {
+        //         uselessIndex.push(i);
+        //     }
+        // }
         for (var i = 1; i < arr[1].length; i++) {
-            if (!re.test(arr[0][i]) || arr[1][i] === "0" && arr[2][i] === "0" && arr[3][i] === "0") {
+            if (!re.test(arr[0][i])) {
                 uselessIndex.push(i);
             }
         }
@@ -251,13 +256,12 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         return arr;
     };
 
-
     $scope.random = function() {
         return Math.floor(Math.random() * 116) + 1;
     }
 
     $scope.meetingSessionClick = function($event, committee) {
-        if ($scope.checkAnalysis($scope.individual.LegislatorId, committee.MeetingSession)) {
+        if (!$scope.hasData($scope.individual.LegislatorId, committee.MeetingSession)) {
             return;
         }
         $event.preventDefault();
@@ -265,17 +269,17 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         $scope.current.target = committee.MeetingSession;
     }
 
-    $scope.checkAnalysis = function(id, session) {
-        var hasNoValue = true;
+    $scope.hasData = function(id, session) {
+        var hasData = false;
         if (typeof(analysisCache[id]) != 'undefined' &&
             typeof(analysisCache[id][session]) != 'undefined') {
             for (var i = 0; i < analysisCache[id][session].length; i++) {
                 if (analysisCache[id][session][i].value) {
-                    hasNoValue = false;
+                    hasData = true;
                 }
             }
         }
-        return hasNoValue;
+        return hasData;
     }
 
     $scope.suggest = function() {
@@ -287,7 +291,44 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 }
             }
         }
+        $scope.suggestionIndex = -1;
         $scope.suggestions = result;
+    }
+
+    $scope.pickSuggestion = function(ev, suggestions) {
+        var kc = ev.keyCode ? ev.keyCode : ev.which;
+
+        if (suggestions && suggestions.length !== 0) {
+            //When Up arrow is pressed
+            if (kc === 38) {
+                ev.preventDefault();
+                if ($scope.suggestionIndex <= 0) {
+                    $scope.suggestionIndex = suggestions.length - 1;
+                } else {
+                    $scope.suggestionIndex--;
+                }
+                $scope.searchTarget = suggestions[$scope.suggestionIndex];
+            }
+            //When down arrow is pressed
+            if (kc === 40) {
+                ev.preventDefault();
+                if ($scope.suggestionIndex >= suggestions.length - 1) {
+                    $scope.suggestionIndex = 0;
+                } else {
+                    $scope.suggestionIndex++;
+                }
+                $scope.searchTarget = suggestions[$scope.suggestionIndex];
+            }
+            //When enter is pressed
+            if (kc === 13) {
+                ev.preventDefault();
+                $scope.suggestions = "";
+            }
+        }
+    }
+
+    $scope.hoverSuggestion = function(suggestion){
+        $scope.suggestionIndex = $scope.suggestions.indexOf(suggestion);
     }
 
     for (var i = 0; i < 10; i++) {
@@ -296,14 +337,12 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
 
     Councilors.fetch(0).then(function(data) {
         $scope.AllCouncilors = data;
-        console.log(data);
         var x = $scope.random();
-        while (x === 29 || $scope.AllCouncilors[i - 1].IsResignation) {
+        while ($scope.AllCouncilors[i - 1].IsResignation) {
             x = $scope.random();
         }
         $scope.fetchIndividual(x);
         $scope.updateNews(x);
     });
-
-
+    
 }]);
