@@ -1,38 +1,38 @@
 var app = angular.module("app", []);
 
-app.factory('Councilors', ['$http', '$q', function($http, $q) {
+app.factory('Councilors', ['$http', '$q', function ($http, $q) {
     return {
-        fetch: function(committeeType) {
+        fetch: function (committeeType) {
             var defer = $q.defer();
             var source = "https://congressonline.azurewebsites.net/Api/Legislators/List?committee=" + committeeType;
-            $http.get(source).success(function(data) {
+            $http.get(source).success(function (data) {
                 defer.resolve(data);
-            }).error(function() {
-                console.log("Fetch work FAILED!!")
+            }).error(function () {
+                console.log("Fetch work FAILED!!");
             });
             return defer.promise;
         }
     };
 }]);
 
-app.factory('Individual', ['$http', '$q', function($http, $q) {
+app.factory('Individual', ['$http', '$q', function ($http, $q) {
     return {
-        fetch: function(id) {
+        fetch: function (id) {
             var defer = $q.defer();
             var source = "https://congressonline.azurewebsites.net/Api/Legislators/Communication?id=" + id;
-            $http.get(source).success(function(data) {
+            $http.get(source).success(function (data) {
                 defer.resolve(data);
-            }).error(function() {
-                console.log("Fetch work FAILED!!")
+            }).error(function () {
+                console.log("Fetch work FAILED!!");
             });
             return defer.promise;
         }
     };
 }]);
 
-app.factory('Analysis', ['$http', '$q', function($http, $q) {
+app.factory('Analysis', ['$http', '$q', function ($http, $q) {
     return {
-        fetch: function(id, session) {
+        fetch: function (id, session) {
             var defer = $q.defer();
             var source;
             if (session) {
@@ -40,19 +40,19 @@ app.factory('Analysis', ['$http', '$q', function($http, $q) {
             } else {
                 source = "https://congressonline.azurewebsites.net/Api/Charts/KPI?id=" + id;
             }
-            $http.get(source).success(function(data) {
+            $http.get(source).success(function (data) {
                 defer.resolve(data);
-            }).error(function() {
-                console.log("Fetch work FAILED!!")
+            }).error(function () {
+                console.log("Fetch work FAILED!!");
             });
             return defer.promise;
         }
     };
 }]);
 
-app.factory('News', ['$http', '$q', function($http, $q) {
+app.factory('News', ['$http', '$q', function ($http, $q) {
     return {
-        fetch: function(id) {
+        fetch: function (id) {
             var defer = $q.defer();
             var source;
             var config = {
@@ -61,17 +61,17 @@ app.factory('News', ['$http', '$q', function($http, $q) {
                 }
             };
             source = "https://congressonline.azurewebsites.net/Api/Charts/GetNewsCountJsonFile?id=" + id;
-            $http.get(source, config).success(function(data) {
+            $http.get(source, config).success(function (data) {
                 defer.resolve(data);
-            }).error(function() {
-                console.log("Fetch work FAILED!!")
+            }).error(function () {
+                console.log("Fetch work FAILED!!");
             });
             return defer.promise;
         }
     };
 }]);
 
-app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'News', function($scope, Councilors, Individual, Analysis, News) {
+app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'News', function ($scope, Councilors, Individual, Analysis, News) {
 
     var analysisCache = [];
 
@@ -79,24 +79,23 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         target: 5
     };
 
-    $scope.updateCommittee = function(committeeType) {
-        Councilors.fetch(committeeType).then(function(data) {
+    $scope.updateCommittee = function (committeeType) {
+        Councilors.fetch(committeeType).then(function (data) {
             $scope["councilorsByCommittee" + committeeType] = data;
         });
     };
 
-    $scope.fetchIndividual = function(id) {
-        $scope.dataReady = false;
+    $scope.fetchIndividual = function (id) {
         $scope.current.target = 6;
-        Individual.fetch(id).then(function(data) {
+        Individual.fetch(id).then(function (data) {
             for (var i = 5; i > 0; i--) {
                 $scope.fetchAnalysis(id, i);
             }
             $scope.individual = data;
         });
-    }
+    };
 
-    $scope.fetchAnalysis = function(id, session) {
+    $scope.fetchAnalysis = function (id, session) {
         var radar;
         var statistic;
         var radarConfig = {
@@ -104,8 +103,16 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             h: 450,
             maxValue: 1,
             transitionDuration: 400,
-            color: function() {}
+            color: function () { }
         };
+
+        if (session === 1) {
+            $scope.ready.analysis = true;
+            if ($scope.ready.analysis && $scope.ready.news) {
+                console.log("analysis ready last");
+                $scope.ready.data = true;
+            }
+        }
 
         if (analysisCache[id]) {
             if (analysisCache[id][session]) {
@@ -120,7 +127,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 }
 
             } else {
-                Analysis.fetch(id, session).then(function(data) {
+                Analysis.fetch(id, session).then(function (data) {
                     if (analysisCache[id]) {
                         analysisCache[id][session] = data;
                     } else {
@@ -139,7 +146,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 });
             }
         } else {
-            Analysis.fetch(id, session).then(function(data) {
+            Analysis.fetch(id, session).then(function (data) {
                 if (analysisCache[id]) {
                     analysisCache[id][session] = data;
                 } else {
@@ -159,7 +166,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         }
     };
 
-    $scope.drawAnalysis = function(id, session) {
+    $scope.drawAnalysis = function (id, session) {
         var radar;
         var statistic;
         var radarConfig = {
@@ -167,18 +174,27 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             h: 450,
             maxValue: 1,
             transitionDuration: 400,
-            color: function() {}
+            color: function () { }
         };
         statistic = [{
             axes: analysisCache[id][session]
         }];
         radar = RadarChart.update("#radar-chart", statistic, radarConfig);
-    }
+    };
 
-    $scope.updateNews = function(id) {
-        News.fetch(id).then(function(data) {
+    $scope.updateNews = function (id) {
+        News.fetch(id).then(function (data) {
             $scope.news = $scope.filterNews(data, "2014");
             //$scope.news = data;
+
+
+            $scope.ready.news = true;
+            if ($scope.ready.analysis && $scope.ready.news) {
+                console.log("news ready last");
+                $scope.ready.data = true;
+            }
+
+
             var C3Chart = c3.generate({
                 data: {
                     x: 'x',
@@ -205,23 +221,23 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                         }
                     },
                 },
-                zoom: {
-                    enabled: true
-                },
                 subchart: {
                     show: true
+                },
+                zoom: {
+                    enabled: true
                 }
             });
         });
     };
 
-    $scope.search = function(target) {
+    $scope.search = function (target) {
         var targetNotFound = true;
         $scope.searchTarget = "";
         $scope.suggestions = "";
         for (var i = 0; i < $scope.AllCouncilors.length; i++) {
             if ($scope.AllCouncilors[i].FullName === target) {
-                $scope.fetchIndividual($scope.AllCouncilors[i].LegislatorId);
+                $scope.loadData($scope.AllCouncilors[i].LegislatorId);
                 targetNotFound = false;
             }
         }
@@ -230,12 +246,12 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         }
     };
 
-    $scope.setTarget = function(name) {
+    $scope.setTarget = function (name) {
         $scope.searchTarget = name;
         $scope.suggestions = "";
-    }
+    };
 
-    $scope.filterNews = function(arr, date) {
+    $scope.filterNews = function (arr, date) {
         var uselessIndex = [];
         var re = new RegExp("^" + date + "/1\\d+");
         // for (var i = 1; i < arr[1].length; i++) {
@@ -256,23 +272,23 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         return arr;
     };
 
-    $scope.random = function() {
+    $scope.random = function () {
         return Math.floor(Math.random() * 116) + 1;
-    }
+    };
 
-    $scope.meetingSessionClick = function($event, committee) {
+    $scope.meetingSessionClick = function ($event, committee) {
         if (!$scope.hasData($scope.individual.LegislatorId, committee.MeetingSession)) {
             return;
         }
         $event.preventDefault();
         $scope.drawAnalysis($scope.individual.LegislatorId, committee.MeetingSession);
         $scope.current.target = committee.MeetingSession;
-    }
+    };
 
-    $scope.hasData = function(id, session) {
+    $scope.hasData = function (id, session) {
         var hasData = false;
-        if (typeof(analysisCache[id]) != 'undefined' &&
-            typeof(analysisCache[id][session]) != 'undefined') {
+        if (typeof (analysisCache[id]) !== 'undefined' &&
+            typeof (analysisCache[id][session]) !== 'undefined') {
             for (var i = 0; i < analysisCache[id][session].length; i++) {
                 if (analysisCache[id][session][i].value) {
                     hasData = true;
@@ -280,22 +296,22 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             }
         }
         return hasData;
-    }
+    };
 
-    $scope.suggest = function() {
+    $scope.suggest = function () {
         var result = [];
         for (var i = 0; i < $scope.AllCouncilors.length; i++) {
             if ($scope.AllCouncilors[i].FullName.indexOf($scope.searchTarget) >= 0) {
-                if ($scope.searchTarget != "") {
+                if ($scope.searchTarget !== "") {
                     result.push($scope.AllCouncilors[i].FullName);
                 }
             }
         }
         $scope.suggestionIndex = -1;
         $scope.suggestions = result;
-    }
+    };
 
-    $scope.pickSuggestion = function(ev, suggestions) {
+    $scope.pickSuggestion = function (ev, suggestions) {
         var kc = ev.keyCode ? ev.keyCode : ev.which;
 
         if (suggestions && suggestions.length !== 0) {
@@ -325,18 +341,55 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
                 $scope.suggestions = "";
             }
         }
-    }
+    };
 
-    $scope.hoverSuggestion = function(suggestion){
+    $scope.hoverSuggestion = function (suggestion) {
         $scope.suggestionIndex = $scope.suggestions.indexOf(suggestion);
+    };
+
+    $scope.isAnalysisEmpty = function (id) {
+        var isEmpty = true;
+        if (analysisCache[id]) {
+            for (var i = 1; i < analysisCache[id].length; i++) {
+                if ($scope.hasData(id, i)) {
+                    isEmpty = false;
+                }
+            }
+        }
+        return isEmpty;
     }
 
     for (var i = 0; i < 10; i++) {
         $scope.updateCommittee(i);
     }
 
-    Councilors.fetch(0).then(function(data) {
+    $scope.loadData = function (id) {
+
+        $scope.ready.data = false;
+        $scope.ready.news = false;
+        $scope.ready.analysis = false;
+
+        $scope.updateNews(id);
+        $scope.fetchIndividual(id);
+    }
+
+    Councilors.fetch(0).then(function (data) {
+        $scope.ready = {
+            data: false,
+            news: false,
+            analysis: false
+        };
         $scope.AllCouncilors = data;
+        $scope.types = [
+        { name: "內政", committeeId: $scope.councilorsByCommittee1 },
+        { name: "外交國防", committeeId: $scope.councilorsByCommittee2 },
+        { name: "經濟", committeeId: $scope.councilorsByCommittee3 },
+        { name: "財政", committeeId: $scope.councilorsByCommittee4 },
+        { name: "教育文化", committeeId: $scope.councilorsByCommittee5 },
+        { name: "交通", committeeId: $scope.councilorsByCommittee6 },
+        { name: "司法法制", committeeId: $scope.councilorsByCommittee7 },
+        { name: "社福還衛", committeeId: $scope.councilorsByCommittee8 }
+        ];
         var x = $scope.random();
         while ($scope.AllCouncilors[i - 1].IsResignation) {
             x = $scope.random();
@@ -344,5 +397,5 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         $scope.fetchIndividual(x);
         $scope.updateNews(x);
     });
-    
+
 }]);
