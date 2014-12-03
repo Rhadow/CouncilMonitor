@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/c3.css">
     <link rel="stylesheet" href="css/radar-chart.css">
+    <!--<link rel="stylesheet" href="css/sweet-alert.css">-->
     <link rel="stylesheet" href="css/index.css">
 </head>
 
@@ -55,6 +56,14 @@
         </div>
     </nav>
 
+    <div class="container loading-wrapper" ng-hide="ready.data">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="loading style-2"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-5">
@@ -70,7 +79,7 @@
                         </div>
                         <span class="label label-success" ng-show="committee.Type == 1">優秀</span>
                         <span class="label label-warning" ng-show="committee.Type == 2">待觀察</span>
-                        <span class="label label-info" ng-hide="committee.MeetingSession !== current.target">查看中</span>
+                        <span class="label label-info" ng-hide="committee.MeetingSession !== current.target">顯示中</span>
                     </li>
                 </ul>
                 <h2>聯絡方式</h2>
@@ -105,9 +114,9 @@
     <script src="js/d3.js" charset="utf-8"></script>
     <script src="js/radar-chart.js"></script>
     <script src="js/c3.js"></script>
+    <!--<script src="js/sweet-alert.js"></script>-->
     <script src="js/angular.min.js"></script>
     <script src="js/index.js"></script>
-
 
 </body>
 

@@ -3,44 +3,56 @@ body {
     background-color: #EEEEEE;
     font-family: "微軟正黑體";
 }
+
 .councilor-photo {
     width: 55%;
 }
+
 .page-header {
     margin-top: 0;
 }
+
 ul.content {
     padding-left: 0;
 }
-ul.content li {
-    font-size: 1.3em;
-    list-style: none;
-}
+
+    ul.content li {
+        font-size: 1.3em;
+        list-style: none;
+    }
+
 .analysis {
     margin-top: 0;
 }
+
 .header-searchbar {
     margin-top: 4px;
 }
-.header-searchbar input {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 28px;
-}
+
+    .header-searchbar input {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 28px;
+    }
+
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
 html > /**/ body ul.content li {
     margin-top: 3px;
 }
-ul.content li a {
-    text-decoration: none;
-    color: #348b8a;
-    font-weight: bold;
-}
-ul.content li a:hover {
-    color: #3da3a2;
-}
+
+    ul.content li a {
+        text-decoration: none;
+        color: #348b8a;
+        font-weight: bold;
+    }
+
+        ul.content li a:hover {
+            color: #3da3a2;
+        }
+
 .nav-style {
     background-color: #444444;
     -moz-border-radius: 0;
@@ -48,77 +60,96 @@ ul.content li a:hover {
     border-radius: 0;
     border: 0;
 }
+
 .navbar-default .navbar-nav > li > a {
     color: white;
 }
-.navbar-default .navbar-nav > li > a:hover {
-    color: #444444;
-    background-color: #ffcc00;
-}
-.navbar-default .navbar-nav > li > a:focus {
-    color: white;
-    background-color: #444444;
-}
-.navbar-default .navbar-nav > li > a:hover:focus {
-    color: #444444;
-    background-color: #ffcc00;
-    font-weight: bold;
-}
+
+    .navbar-default .navbar-nav > li > a:hover {
+        color: #444444;
+        background-color: #ffcc00;
+    }
+
+    .navbar-default .navbar-nav > li > a:focus {
+        color: white;
+        background-color: #444444;
+    }
+
+    .navbar-default .navbar-nav > li > a:hover:focus {
+        color: #444444;
+        background-color: #ffcc00;
+        font-weight: bold;
+    }
+
 ul.dropdown-menu {
     padding: 0;
     border: 0;
 }
+
 .dropdown-menu > li {
     background-color: #444444;
     padding-bottom: 2px;
     cursor: pointer;
 }
-.dropdown-menu > li:hover {
-    background-color: #ffcc00;
-}
-.dropdown-menu > li:hover a {
-    background-color: #ffcc00;
-    color: #444444;
-}
-.dropdown-menu > li:hover a:focus {
-    background-color: #ffcc00;
-    color: #444444;
-}
+
+    .dropdown-menu > li:hover {
+        background-color: #ffcc00;
+    }
+
+        .dropdown-menu > li:hover a {
+            background-color: #ffcc00;
+            color: #444444;
+        }
+
+            .dropdown-menu > li:hover a:focus {
+                background-color: #ffcc00;
+                color: #444444;
+            }
+
     .dropdown-menu > li:last-child {
         -moz-border-radius: 0 0 5px 5px;
         -webkit-border-radius: 0 0 5px 5px;
         border-radius: 0 0 5px 5px;
     }
-.dropdown-menu > li > a {
-    display: inline-block;
-    vertical-align: middle;
-    color: white;
-    padding-left: 10px;
-}
-.dropdown-menu > li > a:hover {
-    color: #444444;
-    background-color: #ffcc00;
-}
-.dropdown-menu > li > a:focus {
-    color: white;
-    background-color: #444444;
-}
-.dropdown-menu > li > a:hover:focus {
-    color: #444444;
-    background-color: #ffcc00;
-}
+
+    .dropdown-menu > li > a {
+        display: inline-block;
+        vertical-align: middle;
+        color: white;
+        padding-left: 10px;
+    }
+
+        .dropdown-menu > li > a:hover {
+            color: #444444;
+            background-color: #ffcc00;
+        }
+
+        .dropdown-menu > li > a:focus {
+            color: white;
+            background-color: #444444;
+        }
+
+        .dropdown-menu > li > a:hover:focus {
+            color: #444444;
+            background-color: #ffcc00;
+        }
+
 .navbar-default .navbar-brand {
     color: white;
 }
-.navbar-default .navbar-brand:hover {
-    color: white;
-}
-.navbar-default .navbar-brand:focus {
-    color: white;
-}
-.navbar-default .navbar-brand:hover:focus {
-    color: white;
-}
+
+    .navbar-default .navbar-brand:hover {
+        color: white;
+    }
+
+    .navbar-default .navbar-brand:focus {
+        color: white;
+    }
+
+    .navbar-default .navbar-brand:hover:focus {
+        color: white;
+    }
+
 .chart-wrapper {
     border: 1px solid #444444;
     padding-top: 20px;
@@ -126,78 +157,92 @@ ul.dropdown-menu {
     -webkit-box-shadow: 1px 1px #CCCCCC;
     box-shadow: 1px 1px #CCCCCC;
 }
+
 hr {
     border-top: #444444 1px solid;
     -moz-box-shadow: 1px 1px #CCCCCC;
     -webkit-box-shadow: 1px 1px #CCCCCC;
     box-shadow: 1px 1px #CCCCCC;
 }
+
 h1, h2, h3, h4, h5, h6 {
     text-shadow: 1px 1px #CCCCCC;
 }
+
 .thumbnail {
-    -moz-box-shadow: 1px 1px 5px #999999;
-    -webkit-box-shadow: 1px 1px 5px #999999;
-    box-shadow: 1px 1px 5px #999999;
+    border: 1px solid #CCCCCC
 }
+
 ul.content li div {
     font-weight: bold;
 }
+
 .radar-chart .area, .circle {
     fill-opacity: 0.7;
     fill: #4fbbba;
     stroke: #444444;
 }
+
 .radar-chart.focus .area {
     fill-opacity: 0.3;
 }
-.radar-chart.focus .area.focused {
-    fill-opacity: 0.9;
-}
+
+    .radar-chart.focus .area.focused {
+        fill-opacity: 0.9;
+    }
+
 div.party-pic {
     margin-left: 5px;
     display: inline-block;
     background-image: url(../img/parties.png);
     vertical-align: middle;
 }
+
 .party-pic.blue {
     background-position: 0 80px;
     width: 20px;
     height: 20px;
 }
+
 .party-pic.green {
     background-position: 0 120px;
     width: 20px;
     height: 20px;
 }
+
 .party-pic.orange {
     background-position: 0 20px;
     width: 20px;
     height: 20px;
 }
+
 .party-pic.none {
     background-position: 0 100px;
     width: 20px;
     height: 20px;
 }
+
 .party-pic.black {
     background-position: 0 40px;
     width: 20px;
     height: 20px;
 }
+
 .party-pic.red {
     background-position: 0 60px;
     width: 20px;
     height: 20px;
 }
+
 .disabled {
     color: black;
     display: inline-block;
 }
+
 .suggestions {
     z-index: 999;
     background-color: #444444;
-    border: 1px solid #444444;    
+    border: 1px solid #444444;
     position: absolute;
     top: 36px;
     left: 30px;
@@ -205,35 +250,104 @@ div.party-pic {
     padding-left: 12px;
     color: white;
 }
-.suggestions li {
-    list-style: none;
-    cursor: pointer;
-}
-.suggestions li:hover {
-    background-color: #ffcc00;
-    color: black;
-}
 
-div.header-searchbar{
+    .suggestions li {
+        list-style: none;
+        cursor: pointer;
+    }
+
+        .suggestions li:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+
+div.header-searchbar {
     position: relative;
 }
+
 .clickable {
     text-decoration: none;
     color: #348b8a;
     font-weight: bold;
     cursor: pointer;
 }
-.clickable:hover {
-    color: #3da3a2;
-}
-html > /**/ body ul.content li div{
+
+    .clickable:hover {
+        color: #3da3a2;
+    }
+
+html > /**/ body ul.content li div {
     display: inline-block;
 }
-ul.content li div.contact{
-    display: block;
-}
+
+    ul.content li div.contact {
+        display: block;
+    }
 
 .suggestions li.picked {
     background-color: #ffcc00;
     color: black;
+}
+
+
+.loading-wrapper{
+    z-index: 999;
+    position:absolute;
+    width: 100%;
+    height: 1500px;
+    text-align: center;
+    padding-top: 270px;
+    background-color: #EEEEEE;
+}
+
+
+
+.loading {
+    display: inline-block;
+    margin: 5em;
+    border-width: 45px;
+    border-radius: 50%;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    -o-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+.style-1 {
+    border-style: solid;
+    border-color: #444 transparent;
+}
+
+.style-2 {
+    border-style: double;
+    border-color: #444 transparent;
+}
+
+.style-3 {
+    border-style: double;
+    border-color: #444 #fff #fff;
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(359deg);
+    }
+}
+
+@-o-keyframes spin {
+    100% {
+        -moz-transform: rotate(359deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(359deg);
+    }
 }

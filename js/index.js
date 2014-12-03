@@ -8,7 +8,7 @@ app.factory('Councilors', ['$http', '$q', function ($http, $q) {
             $http.get(source).success(function (data) {
                 defer.resolve(data);
             }).error(function () {
-                console.log("Fetch work FAILED!!");
+                console.log("Fetch Councilor FAILED!!");
             });
             return defer.promise;
         }
@@ -23,7 +23,7 @@ app.factory('Individual', ['$http', '$q', function ($http, $q) {
             $http.get(source).success(function (data) {
                 defer.resolve(data);
             }).error(function () {
-                console.log("Fetch work FAILED!!");
+                console.log("Fetch Individual FAILED!!");
             });
             return defer.promise;
         }
@@ -43,9 +43,23 @@ app.factory('Analysis', ['$http', '$q', function ($http, $q) {
             $http.get(source).success(function (data) {
                 defer.resolve(data);
             }).error(function () {
-                console.log("Fetch work FAILED!!");
+                console.log("Fetch Analysis FAILED!!");
             });
             return defer.promise;
+        },
+
+        fetchAll: function (id) {
+            var deferred = $q.defer();
+            var queue = [];
+            for (var i = 5; i > 0; i--) {
+                queue.push($http.get("https://congressonline.azurewebsites.net/Api/Charts/KPI?id=" + id + "&meetingSession=" + i));
+            }
+            $q.all(queue).then(function (results) { deferred.resolve(results) }, function (errors) {
+                console.log("Fetch All Analysis fail!");
+            }, function (updates) {
+                console.log("Updating");
+            });
+            return deferred.promise;
         }
     };
 }]);
@@ -64,107 +78,87 @@ app.factory('News', ['$http', '$q', function ($http, $q) {
             $http.get(source, config).success(function (data) {
                 defer.resolve(data);
             }).error(function () {
-                console.log("Fetch work FAILED!!");
+                console.log("Fetch News FAILED!!");
             });
             return defer.promise;
         }
     };
 }]);
 
-app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'News', function ($scope, Councilors, Individual, Analysis, News) {
+app.controller("AppCtrl", ['$scope', '$q', 'Councilors', 'Individual', 'Analysis', 'News', function ($scope, $q, Councilors, Individual, Analysis, News) {
 
     var analysisCache = [];
 
     $scope.current = {
-        target: 5
+        target: 5,
     };
 
     $scope.updateCommittee = function (committeeType) {
         Councilors.fetch(committeeType).then(function (data) {
             $scope["councilorsByCommittee" + committeeType] = data;
+        }).then(function () {
+            console.log($scope.types);
+            $scope.types = [
+            { name: "內政", committeeId: $scope.councilorsByCommittee1 },
+            { name: "外交國防", committeeId: $scope.councilorsByCommittee2 },
+            { name: "經濟", committeeId: $scope.councilorsByCommittee3 },
+            { name: "財政", committeeId: $scope.councilorsByCommittee4 },
+            { name: "教育文化", committeeId: $scope.councilorsByCommittee5 },
+            { name: "交通", committeeId: $scope.councilorsByCommittee6 },
+            { name: "司法法制", committeeId: $scope.councilorsByCommittee7 },
+            { name: "社福還衛", committeeId: $scope.councilorsByCommittee8 }
+            ];
         });
     };
 
     $scope.fetchIndividual = function (id) {
         $scope.current.target = 6;
         Individual.fetch(id).then(function (data) {
-            for (var i = 5; i > 0; i--) {
-                $scope.fetchAnalysis(id, i);
-            }
+            $scope.fetchAllAnalysis(id);
             $scope.individual = data;
         });
     };
 
-    $scope.fetchAnalysis = function (id, session) {
-        var radar;
-        var statistic;
-        var radarConfig = {
-            w: 450,
-            h: 450,
-            maxValue: 1,
-            transitionDuration: 400,
-            color: function () { }
-        };
+    $scope.fetchAllAnalysis = function (id) {
+        Analysis.fetchAll(id)
+            .then(function (data) {
+                var statistic;
+                var session;
+                var radarConfig = {
+                    w: 450,
+                    h: 450,
+                    maxValue: 1,
+                    transitionDuration: 400,
+                    color: function () { }
+                };
+                for (var i = 0; i < data.length; i++) {
+                    session = 5 - i;
 
-        if (session === 1) {
-            $scope.ready.analysis = true;
-            if ($scope.ready.analysis && $scope.ready.news) {
-                console.log("analysis ready last");
-                $scope.ready.data = true;
-            }
-        }
-
-        if (analysisCache[id]) {
-            if (analysisCache[id][session]) {
-                statistic = [{
-                    axes: analysisCache[id][session]
-                }];
-                if ($scope.hasData(id, session)) {
-                    if (session < $scope.current.target) {
-                        $scope.current.target = session;
-                        radar = RadarChart.update("#radar-chart", statistic, radarConfig);
-                    }
-                }
-
-            } else {
-                Analysis.fetch(id, session).then(function (data) {
                     if (analysisCache[id]) {
-                        analysisCache[id][session] = data;
+                        analysisCache[id][session] = data[i].data;
                     } else {
                         analysisCache[id] = [];
-                        analysisCache[id][session] = data;
+                        analysisCache[id][session] = data[i].data;
                     }
-                    statistic = [{
-                        axes: data
-                    }];
+
                     if ($scope.hasData(id, session)) {
                         if (session < $scope.current.target) {
+                            statistic = [{
+                                axes: analysisCache[id][session]
+                            }];
                             $scope.current.target = session;
-                            radar = RadarChart.update("#radar-chart", statistic, radarConfig);
+                            radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
                         }
                     }
-                });
-            }
-        } else {
-            Analysis.fetch(id, session).then(function (data) {
-                if (analysisCache[id]) {
-                    analysisCache[id][session] = data;
-                } else {
-                    analysisCache[id] = [];
-                    analysisCache[id][session] = data;
                 }
-                statistic = [{
-                    axes: data
-                }];
-                if ($scope.hasData(id, session)) {
-                    if (session < $scope.current.target) {
-                        $scope.current.target = session;
-                        radar = RadarChart.draw("#radar-chart", statistic, radarConfig);
-                    }
+            })
+            .then(function () {
+                $scope.ready.analysis = true;
+                if ($scope.ready.analysis && $scope.ready.news) {
+                    $scope.ready.data = true;
                 }
             });
-        }
-    };
+    }
 
     $scope.drawAnalysis = function (id, session) {
         var radar;
@@ -183,52 +177,51 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     };
 
     $scope.updateNews = function (id) {
-        News.fetch(id).then(function (data) {
-            $scope.news = $scope.filterNews(data, "2014");
-            //$scope.news = data;
+        News.fetch(id)
+            .then(function (data) {
+                $scope.news = $scope.filterNews(data, "2014");
+                //$scope.news = data;
 
-
-            $scope.ready.news = true;
-            if ($scope.ready.analysis && $scope.ready.news) {
-                console.log("news ready last");
-                $scope.ready.data = true;
-            }
-
-
-            var C3Chart = c3.generate({
-                data: {
-                    x: 'x',
-                    xFormat: '%Y/%m/%d',
-                    columns: $scope.news,
-                    type: "area"
-                },
-                axis: {
-                    x: {
-                        type: 'timeseries',
-                        tick: {
-                            count: 10,
-                            format: '%Y/%m/%d'
+                var C3Chart = c3.generate({
+                    data: {
+                        x: 'x',
+                        xFormat: '%Y/%m/%d',
+                        columns: $scope.news,
+                        type: "area"
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                count: 10,
+                                format: '%Y/%m/%d'
+                            },
+                            label: {
+                                text: '日期(年/月/日)',
+                                position: 'outer-center'
+                            }
                         },
-                        label: {
-                            text: '日期(年/月/日)',
-                            position: 'outer-center'
-                        }
+                        y: {
+                            label: {
+                                text: '新聞數量(則)',
+                                position: 'outer-middle'
+                            }
+                        },
                     },
-                    y: {
-                        label: {
-                            text: '新聞數量(則)',
-                            position: 'outer-middle'
-                        }
+                    subchart: {
+                        show: true
                     },
-                },
-                subchart: {
-                    show: true
-                },
-                zoom: {
-                    enabled: true
+                    zoom: {
+                        enabled: true
+                    }
+                });
+            })
+            .then(function () {
+                $scope.ready.news = true;
+                if ($scope.ready.analysis && $scope.ready.news) {
+                    $scope.ready.data = true;
                 }
             });
-        });
     };
 
     $scope.search = function (target) {
@@ -243,6 +236,7 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
         }
         if (targetNotFound) {
             alert("找不到 '" + target + "'");
+            //sweetAlert("喔喔...", "找不到 '" + target + "'", "error");
         }
     };
 
@@ -364,13 +358,14 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
     }
 
     $scope.loadData = function (id) {
-
-        $scope.ready.data = false;
-        $scope.ready.news = false;
-        $scope.ready.analysis = false;
-
-        $scope.updateNews(id);
-        $scope.fetchIndividual(id);
+        if ($scope.current.id !== id) {
+            $scope.ready.news = false;
+            $scope.ready.analysis = false;
+            $scope.ready.data = false;
+            $scope.updateNews(id);
+            $scope.fetchIndividual(id);
+            $scope.current.id = id;
+        }
     }
 
     Councilors.fetch(0).then(function (data) {
@@ -380,22 +375,13 @@ app.controller("AppCtrl", ['$scope', 'Councilors', 'Individual', 'Analysis', 'Ne
             analysis: false
         };
         $scope.AllCouncilors = data;
-        $scope.types = [
-        { name: "內政", committeeId: $scope.councilorsByCommittee1 },
-        { name: "外交國防", committeeId: $scope.councilorsByCommittee2 },
-        { name: "經濟", committeeId: $scope.councilorsByCommittee3 },
-        { name: "財政", committeeId: $scope.councilorsByCommittee4 },
-        { name: "教育文化", committeeId: $scope.councilorsByCommittee5 },
-        { name: "交通", committeeId: $scope.councilorsByCommittee6 },
-        { name: "司法法制", committeeId: $scope.councilorsByCommittee7 },
-        { name: "社福還衛", committeeId: $scope.councilorsByCommittee8 }
-        ];
         var x = $scope.random();
         while ($scope.AllCouncilors[i - 1].IsResignation) {
             x = $scope.random();
         }
         $scope.fetchIndividual(x);
         $scope.updateNews(x);
+        $scope.current.id = x;
     });
 
 }]);
